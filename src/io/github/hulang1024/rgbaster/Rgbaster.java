@@ -1,4 +1,4 @@
-package io.github.hulang1024.rgbaster;
+package com.xtxk.hb.utils;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
