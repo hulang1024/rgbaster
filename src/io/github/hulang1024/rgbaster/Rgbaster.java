@@ -1,4 +1,4 @@
-package com.xtxk.hb.utils;
+package io.github.hulang1024.rgbaster;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -15,7 +15,7 @@ import javax.imageio.ImageIO;
 /**
  * 获取图片色调
  * @author hulang
- * @sice 2018年5月4日
+ * @sice 2018-05-04
  */
 public class Rgbaster {
     /**
@@ -100,13 +100,12 @@ public class Rgbaster {
         
         /**
          * 调色板选项
-         * @param enable 是否启用调色板
-         * @param paletteSize 如果enable=true, 则0=所有
-         * @param fill 填充颜色,如果颜色数量不够paletteSize, 但是如果图片只有单色, 则忽略此参数并自动设置单色
+         * @param paletteSize 要返回的调色板里包含的颜色数量, 如果为0, 表示返回所有颜色. 调色板是根据次数排序后的一组颜色.
+         * @param fill 填充颜色, 如果图像中颜色数量不够<code>paletteSize</code>就填充颜色. 但是如果图片只有单色, 则忽略此参数并自动设置单色.
          * @return
          */
-        public Options palette(boolean enable, int paletteSize, Color fill) {
-            this.palette = enable;
+        public Options palette(int paletteSize, Color fill) {
+            this.palette = true;
             this.paletteSize = paletteSize;
             this.paletteFill = fill;
             return this;
@@ -124,6 +123,10 @@ public class Rgbaster {
         public int compareTo(ColorCount cc) {
             return cc.count - this.count;
         }
+    }
+    
+    public static Colors colors(File imageFile) throws IOException {
+        return colors(imageFile, new Rgbaster.Options());
     }
     
     /**
@@ -182,6 +185,8 @@ public class Rgbaster {
                 for (int fillCnt = options.paletteSize - paletteSize; fillCnt > 0; fillCnt--) {
                     result.palette.add(fill);
                 }
+            } else {
+                result.palette = new ArrayList<Color>();
             }
         }
         return result;
