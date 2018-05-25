@@ -84,8 +84,8 @@ public class Rgbaster {
          * @return
          */
         public Options exclude(Color[] exclude) {
-        	this.exclude = exclude;
-        	return this;
+            this.exclude = exclude;
+            return this;
         }
         
         /**
@@ -106,10 +106,10 @@ public class Rgbaster {
          * @return
          */
         public Options palette(boolean enable, int paletteSize, Color fill) {
-        	this.palette = enable;
-        	this.paletteSize = paletteSize;
-        	this.paletteFill = fill;
-        	return this;
+            this.palette = enable;
+            this.paletteSize = paletteSize;
+            this.paletteFill = fill;
+            return this;
         }
     }
     
