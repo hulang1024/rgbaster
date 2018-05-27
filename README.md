@@ -1,6 +1,6 @@
 # RGBaster
 一个非常简单的Java库, 从图像中提取色调.
-原理是计数后排序. 可以用于根据颜色出现数量确定色调的特定场景.  
+
 源于JavaScript版本:[rgbaster.js](https://github.com/briangonzalez/rgbaster.js)
 
 ### 用法
