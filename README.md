@@ -1,7 +1,6 @@
 # RGBaster
 一个非常简单的Java库，从图像中提取色调。
 
-源于JavaScript版本:[rgbaster.js](https://github.com/briangonzalez/rgbaster.js)
 
 ### 用法
 用法非常简单，创建一个图像File，就可以获取色调和调色板。
@@ -51,6 +50,11 @@ colors = Rgbaster.colors(
         .palette(5000, Color.black)
         .exclude(new Color[] { Color.black, Color.white }));
 ```
+
+
+### 相关
+本项目源于做一个自适应背景图片色调的登录按钮的Web系统登录界面，一开始使用了[rgbaster.js](https://github.com/briangonzalez/rgbaster.js)  
+但该JavaScript版本有一个延迟。本Java版本可以在B/S的服务端提取色调，也可以用于桌面端。
 
 
 License

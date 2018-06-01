@@ -1,5 +1,3 @@
-package io.github.hulang1024.rgbaster.demo;
-
 import static java.lang.System.out;
 
 import java.awt.Color;
