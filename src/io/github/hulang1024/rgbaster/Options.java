@@ -4,7 +4,6 @@ import java.awt.Color;
 
 /**
  * 选项
- * @author hulang
  */
 public class Options {
     Color[] exclude;
@@ -45,8 +44,10 @@ public class Options {
     
     /**
      * 调色板选项
-     * @param paletteSize 要返回的调色板里包含的颜色数量, 如果为0, 表示返回所有颜色. 调色板是根据次数排序后的一组颜色.
-     * @param fill 填充颜色, 如果图像中颜色数量不够<code>paletteSize</code>就填充颜色. 但是如果图片只有单色, 则忽略此参数并自动设置单色.
+     * @param paletteSize 要返回的调色板里包含的颜色数量，如果为0，表示返回所有颜色。
+     *  调色板是根据次数排序后的一组颜色。
+     * @param fill 填充颜色，如果图像中颜色数量不够paletteSize就填充颜色。
+     *  但是如果图片只有单色，则忽略此参数并自动设置单色。
      * @return
      */
     public Options palette(int paletteSize, Color fill) {
