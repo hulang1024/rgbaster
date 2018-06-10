@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import io.github.hulang1024.rgbaster.Colors;
+import io.github.hulang1024.rgbaster.Options;
 import io.github.hulang1024.rgbaster.Rgbaster;
 
 /**
@@ -16,7 +18,7 @@ public class RgbasterBasicDemo {
     public static void main(String[] args) {
         String imageDir = RgbasterBasicDemo.class.getResource("/").getPath();
 
-        Rgbaster.Colors colors = null;
+        Colors colors = null;
         // 单色
         try {
             colors = Rgbaster.colors( new File(imageDir, "grape.png") );
@@ -28,7 +30,7 @@ public class RgbasterBasicDemo {
         // 多纯色
         try {
             colors = Rgbaster.colors( new File(imageDir, "colors.png"),
-                new Rgbaster.Options().palette(8, Color.white));
+                new Options().palette(8, Color.white));
         } catch (IOException e) { return; }
         out.println("\ncolors.png: ");
         out.println("  Dominant Color: " + colors.getDominant());
@@ -42,9 +44,9 @@ public class RgbasterBasicDemo {
         File imageFile = new File(imageDir, "image3.png");
         try {
             colors = Rgbaster.colors(imageFile,
-                new Rgbaster.Options()
+                new Options()
                     .palette(5000, Color.black)
-                    .exclude(new Rgbaster.Options.ExcludeClosure() {
+                    .exclude(new Options.ExcludeClosure() {
                         public boolean exclude(int color) {
                             return false;
                             //return new Color(color).getBlue() == 255;

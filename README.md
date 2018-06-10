@@ -37,16 +37,16 @@ for (Color c : colors.getPalette()) {
 ```java
 colors = Rgbaster.colors(
     imageFile,
-    new Rgbaster.Options()
+    new Options()
         .palette(5000, Color.gray)
-        .exclude(new Rgbaster.Options.ExcludeClosure() {
+        .exclude(new Options.ExcludeClosure() {
             public boolean exclude(int color) {
                 return new Color(color).getBlue() == 255;
             }
         }));
 colors = Rgbaster.colors(
     imageFile,
-    new Rgbaster.Options()
+    new Options()
         .palette(5000, Color.black)
         .exclude(new Color[] { Color.black, Color.white }));
 ```
