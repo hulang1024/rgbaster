@@ -6,8 +6,13 @@ JavaScript版本：[rgbaster.js](https://github.com/briangonzalez/rgbaster.js)
 用法非常简单，创建一个图像File，就可以获取色调和调色板。
 
 ```java
-File imageFile = new File(imageDir, "image3.png");
-colors = Rgbaster.colors( imageFile );
+import java.awt.Color;
+import java.io.File;
+import io.github.hulang1024.rgbaster.Colors;
+import io.github.hulang1024.rgbaster.Options;
+import io.github.hulang1024.rgbaster.Rgbaster;
+
+Colors colors = Rgbaster.colors( new File(imageDir, "image3.png") );
 System.out.println("  Dominant Color: " + colors.getDominant());
 System.out.println("  Secondary Color: " + colors.getSecondary());
 System.out.println("  Palette: ");
@@ -35,7 +40,7 @@ for (Color c : colors.getPalette()) {
 ### 完整示例
 
 ```java
-colors = Rgbaster.colors(
+Colors colors = Rgbaster.colors(
     imageFile,
     new Options()
         .palette(5000, Color.gray)
@@ -44,7 +49,7 @@ colors = Rgbaster.colors(
                 return new Color(color).getBlue() == 255;
             }
         }));
-colors = Rgbaster.colors(
+Colors colors = Rgbaster.colors(
     imageFile,
     new Options()
         .palette(5000, Color.black)
