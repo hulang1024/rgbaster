@@ -12,6 +12,13 @@ public class Colors {
     int colorCount;
     List<Color> palette;
     
+    /**
+     * 创建一个色调结果
+     * @param dominant
+     * @param secondary
+     * @param colorCount
+     * @param palette
+     */
     public Colors(Color dominant, Color secondary, int colorCount, List<Color> palette) {
         this.dominant = dominant;
         this.secondary = secondary;

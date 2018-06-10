@@ -32,23 +32,32 @@ public class Rgbaster {
         }
     }
     
+    /**
+     * 获取色调
+     */
     public static Colors colors(File imageFile, Options... options) throws IOException {
         return colors(ImageIO.read(imageFile), options);
     }
 
-    public static Colors colors(InputStream image, Options... options) throws IOException {
-        return colors(ImageIO.read(image), options);
-    }
-
-    public static Colors colors(byte[] image, Options... options) throws IOException {
-        return colors(new ByteArrayInputStream(image), options);
+    /**
+     * 获取色调
+     */
+    public static Colors colors(InputStream imageInputStream, Options... options) throws IOException {
+        return colors(ImageIO.read(imageInputStream), options);
     }
 
     /**
      * 获取色调
-     * @param imgFile 图片文件
-     * @param optionsArgs 选项
-     * @return Rgbaster.Colors
+     */
+    public static Colors colors(byte[] imageByte, Options... options) throws IOException {
+        return colors(new ByteArrayInputStream(imageByte), options);
+    }
+
+    /**
+     * 获取色调
+     * @param image BufferedImage对象
+     * @param optionsArgs 可选的选项
+     * @return {@link Colors}
      * @throws IOException
      */
     public static Colors colors(BufferedImage image, Options... optionsArgs) throws IOException {
