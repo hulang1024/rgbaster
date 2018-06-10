@@ -2,8 +2,10 @@ package io.github.hulang1024.rgbaster;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -125,24 +127,32 @@ public class Rgbaster {
         }
     }
     
-    public static Colors colors(File imageFile) throws IOException {
-        return colors(imageFile, new Rgbaster.Options());
+    public static Colors colors(File imageFile, Options... options) throws IOException {
+        return colors(ImageIO.read(imageFile), options);
     }
-    
+
+    public static Colors colors(InputStream image, Options... options) throws IOException {
+        return colors(ImageIO.read(image), options);
+    }
+
+    public static Colors colors(byte[] image, Options... options) throws IOException {
+        return colors(new ByteArrayInputStream(image), options);
+    }
+
     /**
      * 获取色调
      * @param imgFile 图片文件
-     * @param options 选项
+     * @param optionsArgs 选项
      * @return Rgbaster.Colors
      * @throws IOException
      */
-    public static Colors colors(File imageFile, Options options) throws IOException {
-        BufferedImage image = ImageIO.read(imageFile);
+    public static Colors colors(BufferedImage image, Options... optionsArgs) throws IOException {
         int width = image.getWidth();
         int height = image.getHeight();
         TreeMap<Integer, Integer> colorCountsMap = new TreeMap<Integer, Integer>();
         int x, y, color;
         Integer count;
+        Options options = optionsArgs.length == 0 ? new Rgbaster.Options() : optionsArgs[0];
         for (x = 0; x < width; x++) {  
             for (y = 0; y < height; y++) {
                 color = image.getRGB(x, y);
