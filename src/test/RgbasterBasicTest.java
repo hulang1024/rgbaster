@@ -1,13 +1,17 @@
 package test;
-import static java.lang.System.out;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.awt.Color;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 import io.github.hulang1024.rgbaster.Colors;
 import io.github.hulang1024.rgbaster.Options;
@@ -86,7 +90,12 @@ public class RgbasterBasicTest {
                 }));
         assertEquals(6, colors.getColorCount());
     }
-    
+
+    @Test(expected=Exception.class)
+    public void testException() {
+        Rgbaster.colors( new File(imageDir, "non existent") );
+    }
+
     @Test
     public void testPhoto() {
         File imageFile = new File(imageDir, "sky_and_greens_photo.png");
@@ -94,8 +103,6 @@ public class RgbasterBasicTest {
         colors = Rgbaster.colors(imageFile,
             new Options().enbalePalette());
         assertEquals(new Color(67, 172, 255), colors.getDominant());
-        System.out.println(colors.getSecondary());
-
 
         colors = Rgbaster.colors(imageFile,
             new Options()
@@ -130,9 +137,19 @@ public class RgbasterBasicTest {
         }
     }
 
-    @Test(expected=Exception.class)
-    public void testException() {
-        Rgbaster.colors( new File(imageDir, "non existent") );
+    @Test
+    public void testInputStreamMethod() throws FileNotFoundException {
+        assertEquals(7, Rgbaster.colors( new FileInputStream(new File(imageDir, "7colors.png")) ).getColorCount());
+    }
+
+    @Test
+    public void testByteMethod() throws IOException {
+        File file = new File(imageDir, "7colors.png");
+        byte[] imageByte = new byte[(int)file.length()];
+        FileInputStream fis = new FileInputStream(file);
+        fis.read(imageByte);
+        fis.close();
+        assertEquals(7, Rgbaster.colors(imageByte).getColorCount());
     }
     
     public static String rgb(Color color) {
