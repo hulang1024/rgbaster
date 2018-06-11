@@ -29,7 +29,8 @@ for (Color c : colors.getPalette()) {
 Colors colors = Rgbaster.colors(
     imageFile,
     new Options()
-        .palette(5000, Color.gray)
+        .enbalePalette()
+        .ignoreAlpha(false)
         .exclude(new Options.ExcludeClosure() {
             public boolean exclude(int color) {
                 return new Color(color).getBlue() == 255;
