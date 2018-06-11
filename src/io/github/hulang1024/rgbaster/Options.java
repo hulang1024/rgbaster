@@ -4,13 +4,14 @@ import java.awt.Color;
 
 /**
  * 选项
+ * @author hulang
  */
 public class Options {
     Color[] exclude;
     ExcludeClosure excludeClosure;
-    boolean palette;
+    boolean paletteEnabled;
     int paletteSize;
-    Color paletteFill;
+    Color paletteFillColor;
 
     /**
      * 排除颜色规则
@@ -25,7 +26,6 @@ public class Options {
     /**
      * 设置排除颜色
      * @param exclude 想要排除的颜色数组
-     * @return
      */
     public Options exclude(Color[] exclude) {
         this.exclude = exclude;
@@ -35,7 +35,6 @@ public class Options {
     /**
      * 设置排除颜色规则
      * @param closure 自定义排除的规则实现
-     * @return
      */
     public Options exclude(ExcludeClosure closure) {
         this.excludeClosure = closure;
@@ -43,18 +42,28 @@ public class Options {
     }
     
     /**
-     * 调色板选项
-     * @param paletteSize 要返回的调色板里包含的颜色数量，如果为0，表示返回所有颜色。
-     *  调色板是根据次数排序后的一组颜色。
-     * @param fill 填充颜色，如果图像中颜色数量不够paletteSize就填充颜色。
-     *  但是如果图片只有单色，则忽略此参数并自动设置单色。
-     * @return
+     * 启用并设置调色板参数。
+     * @param paletteSize 调色板大小，-1 表示动态大小
+     * @param fillColor 填充颜色，当从图像中分析出的颜色数量小于调色板大小时
      */
-    public Options palette(int paletteSize, Color fill) {
-        this.palette = true;
+    public Options palette(int paletteSize, Color fillColor) {
+        enbalePalette();
         this.paletteSize = paletteSize;
-        this.paletteFill = fill;
+        this.paletteFillColor = fillColor;
         return this;
+    }
+    
+    /**
+     * 启用调色板
+     */
+    public Options enbalePalette() {
+        this.paletteEnabled = true;
+        this.paletteSize = -1;  // 默认动态大小
+        return this;
+    }
+
+    public boolean isPaletteAutoSize() {
+        return this.paletteSize == -1;
     }
     
     public Color[] getExclude() {
@@ -65,15 +74,15 @@ public class Options {
         return excludeClosure;
     }
 
-    public boolean isPalette() {
-        return palette;
+    public boolean isPaletteEnabled() {
+        return paletteEnabled;
     }
 
     public int getPaletteSize() {
         return paletteSize;
     }
 
-    public Color getPaletteFill() {
-        return paletteFill;
+    public Color getPaletteFillColor() {
+        return paletteFillColor;
     }
 }

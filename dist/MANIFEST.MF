@@ -1,3 +1,0 @@
-Created-By: HuLang
-Manifest-Version: 1.0
-Main-Class: io.github.hulang1024.rgbaster.Rgbaster

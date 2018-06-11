@@ -14,9 +14,8 @@ import java.util.TreeMap;
 import javax.imageio.ImageIO;
 
 /**
- * 获取图片色调
+ * 图片RGB色调分析器
  * @author hulang
- * @sice 2018-05-04
  */
 public class Rgbaster {
     private static class ColorCount implements Comparable<ColorCount> {
@@ -36,23 +35,31 @@ public class Rgbaster {
      * 获取色调
      * @return {@link Colors}
      */
-    public static Colors colors(File imageFile, Options... options) throws IOException {
-        return colors(ImageIO.read(imageFile), options);
+    public static Colors colors(File imageFile, Options... options) {
+        try {
+            return colors(ImageIO.read(imageFile), options);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
      * 获取色调
      * @return {@link Colors}
      */
-    public static Colors colors(InputStream imageInputStream, Options... options) throws IOException {
-        return colors(ImageIO.read(imageInputStream), options);
+    public static Colors colors(InputStream imageInputStream, Options... options) {
+        try {
+            return colors(ImageIO.read(imageInputStream), options);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
      * 获取色调
      * @return {@link Colors}
      */
-    public static Colors colors(byte[] imageByte, Options... options) throws IOException {
+    public static Colors colors(byte[] imageByte, Options... options) {
         return colors(new ByteArrayInputStream(imageByte), options);
     }
 
@@ -63,16 +70,16 @@ public class Rgbaster {
      * @return {@link Colors}
      * @throws IOException
      */
-    public static Colors colors(BufferedImage image, Options... optionsArgs) throws IOException {
+    public static Colors colors(BufferedImage image, Options... optionsArgs) {
         Options options = optionsArgs.length == 0 ? new Options() : optionsArgs[0];
 
         int width = image.getWidth();
         int height = image.getHeight();
         TreeMap<Integer, Integer> colorCountsMap = new TreeMap<Integer, Integer>();
-        int x, y, color;
+        int color;
         Integer count;
-        for (x = 0; x < width; x++) {  
-            for (y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {  
+            for (int y = 0; y < height; y++) {
                 color = image.getRGB(x, y);
                 if (options.excludeClosure == null || !options.excludeClosure.exclude(color)) {
                     count = colorCountsMap.get(color);
@@ -86,7 +93,7 @@ public class Rgbaster {
             for (int i = 0; i < exclude.length; i++) {
                 color = exclude[i].getRGB();
                 if (colorCountsMap.get(color) != null)
-                    colorCountsMap.put(color, 0);
+                    colorCountsMap.remove(color);
             }
         }
         
@@ -96,27 +103,32 @@ public class Rgbaster {
         for (Entry<Integer, Integer> entry : colorCountsMap.entrySet()) {
             colorCounts[index++] = new ColorCount(entry.getKey(), entry.getValue());
         }
-        
-        Colors result = new Colors(null, null, colorCount, null);
-        if (colorCounts.length > 0) {
-            Arrays.sort(colorCounts);
-            result.dominant = new Color(colorCounts[0].color);
-            result.secondary = colorCounts.length > 1 ? new Color(colorCounts[1].color) : result.dominant;
+        Arrays.sort(colorCounts);
 
-            if (options.palette) {
-                int paletteSize = options.paletteSize == 0 ?
-                    colorCounts.length : Math.min(options.paletteSize, colorCounts.length);
-                result.palette = new ArrayList<Color>(paletteSize);
-                for (index = 0; index < paletteSize; index++) {
+        Colors result = new Colors(null, null, 0, null);
+        result.colorCount = colorCount;
+        
+        if (options.isPaletteEnabled()) {
+            result.palette = new ArrayList<Color>(
+                options.isPaletteAutoSize() ? colorCounts.length : options.paletteSize);
+            if (options.isPaletteAutoSize()) {
+                for (index = 0; index < colorCounts.length; index++) {
                     result.palette.add( new Color(colorCounts[index].color) );
                 }
-                Color fill = colorCount > 1 ? options.paletteFill : result.dominant;
-                for (int fillCnt = options.paletteSize - paletteSize; fillCnt > 0; fillCnt--) {
-                    result.palette.add(fill);
-                }
             } else {
-                result.palette = new ArrayList<Color>();
+                int cnt = Math.min(options.paletteSize, colorCounts.length);
+                for (index = 0; index < cnt; index++) {
+                    result.palette.add( new Color(colorCounts[index].color) );
+                }
+                for (cnt = options.paletteSize - colorCounts.length; cnt > 0; cnt--) {
+                    result.palette.add(options.paletteFillColor);
+                }
             }
+        }
+        
+        if (colorCount > 0) {
+            result.dominant = new Color(colorCounts[0].color);
+            result.secondary = colorCounts.length > 1 ? new Color(colorCounts[1].color) : result.dominant;
         }
 
         return result;

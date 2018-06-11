@@ -15,6 +15,7 @@ import io.github.hulang1024.rgbaster.Rgbaster;
 Colors colors = Rgbaster.colors( new File(imageDir, "image3.png") );
 System.out.println("  Dominant Color: " + colors.getDominant());
 System.out.println("  Secondary Color: " + colors.getSecondary());
+System.out.println("  Color Count: " + colors.getColorCount());
 System.out.println("  Palette: ");
 for (Color c : colors.getPalette()) {
     System.out.println("\t" + c);
