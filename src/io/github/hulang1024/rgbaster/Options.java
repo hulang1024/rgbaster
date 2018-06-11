@@ -3,28 +3,39 @@ package io.github.hulang1024.rgbaster;
 import java.awt.Color;
 
 /**
- * 选项
+ * 选项。
  * @author hulang
  */
 public class Options {
     Color[] exclude;
     ExcludeClosure excludeClosure;
-    boolean paletteEnabled;
-    int paletteSize;
+    boolean paletteEnabled = false;
+    int paletteSize = -1;
     Color paletteFillColor;
+    boolean ignoreAlpha = true;
 
     /**
-     * 排除颜色规则
+     * 排除颜色规则。
      */
     public static interface ExcludeClosure {
         /**
          * @return 为true则排除
          */
-        boolean exclude(int color);
+        boolean exclude(int rgba);
     }
     
     /**
-     * 设置排除颜色
+     * 设置是否忽略图像的Alpha通道，默认为<code>true</code>。
+     * @param isIgnore
+     * @return
+     */
+    public Options ignoreAlpha(boolean isIgnore) {
+        this.ignoreAlpha = isIgnore;
+        return this;
+    }
+    
+    /**
+     * 设置排除颜色。
      * @param exclude 想要排除的颜色数组
      */
     public Options exclude(Color[] exclude) {
@@ -33,7 +44,7 @@ public class Options {
     }
     
     /**
-     * 设置排除颜色规则
+     * 设置排除颜色规则。
      * @param closure 自定义排除的规则实现
      */
     public Options exclude(ExcludeClosure closure) {
@@ -84,5 +95,9 @@ public class Options {
 
     public Color getPaletteFillColor() {
         return paletteFillColor;
+    }
+
+    public boolean isIgnoreAlpha() {
+        return ignoreAlpha;
     }
 }

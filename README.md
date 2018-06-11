@@ -48,7 +48,7 @@ Colors colors = Rgbaster.colors(
 
 ### 相关
 本项目源于做一个自适应背景图片色调的登录按钮的Web系统登录界面，一开始使用了JavaScript版本，但它有一个延迟。  
-本Java版本可以在B/S的服务端使用，也可以用于桌面端。
+本Java版本增加了一些特性，并可以在B/S的服务端使用，也可以用于桌面端。
 
 
 License

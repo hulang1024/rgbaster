@@ -74,10 +74,10 @@ public class RgbasterBasicTest {
             new File(imageDir, "grape.png"),
             new Options()
                 .exclude(new Color[]{ grape }));
-        assertNull(null, colors.getDominant());
-        assertNull(null, colors.getSecondary());
+        assertNull(colors.getDominant());
+        assertNull(colors.getSecondary());
         assertEquals(0, colors.getColorCount());
-        assertEquals(null, colors.getPalette());
+        assertNull(colors.getPalette());
         
         colors = Rgbaster.colors(
             new File(imageDir, "7colors.png"),
@@ -90,7 +90,32 @@ public class RgbasterBasicTest {
                 }));
         assertEquals(6, colors.getColorCount());
     }
+    
+    @Test
+    public void testAlpha() {
+        colors = Rgbaster.colors(
+            new File(imageDir, "hasalpha.png"),
+            new Options().exclude(new Color[]{ Color.white }));
+        assertTrue(!new Color(12, 160, 251).equals(colors.getDominant()));
+        assertTrue(new Color(12, 160, 251).equals(new Color(colors.getDominant().getRGB(), false)));
+        assertTrue(new Color(128, 128, 128).equals(new Color(colors.getSecondary().getRGB(), false)));
+        assertEquals(2, colors.getColorCount());
 
+        colors = Rgbaster.colors(
+            new File(imageDir, "hasalpha.png"),
+            new Options()
+                .exclude(new Color[]{ new Color(Color.white.getRed(), Color.white.getGreen(), Color.white.getBlue(), 0) })
+                .ignoreAlpha(false));
+
+        assertEquals(
+            new Color(colors.getDominant().getRGB()),
+            new Color(colors.getSecondary().getRGB()));
+
+        assertTrue(!new Color(12, 160, 251).equals(colors.getDominant()));
+        assertTrue(new Color(12, 160, 251).equals(new Color(colors.getDominant().getRGB(), false)));
+        assertEquals(84, colors.getColorCount());
+    }
+    
     @Test(expected=Exception.class)
     public void testException() {
         Rgbaster.colors( new File(imageDir, "non existent") );
@@ -102,7 +127,7 @@ public class RgbasterBasicTest {
         
         colors = Rgbaster.colors(imageFile,
             new Options().enbalePalette());
-        assertEquals(new Color(67, 172, 255), colors.getDominant());
+        assertEquals(new Color(78, 184, 255), colors.getDominant());
 
         colors = Rgbaster.colors(imageFile,
             new Options()

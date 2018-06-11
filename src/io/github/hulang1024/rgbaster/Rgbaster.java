@@ -8,31 +8,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import javax.imageio.ImageIO;
 
 /**
- * 图片RGB色调分析器
+ * 图片RGB颜色分析器。
  * @author hulang
  */
 public class Rgbaster {
-    private static class ColorCount implements Comparable<ColorCount> {
-        int color;
-        int count;
-        public ColorCount(int color, int count) {
-            this.color = color;
-            this.count = count;
-        }
-        
-        public int compareTo(ColorCount cc) {
-            return cc.count - this.count;
-        }
-    }
-
     /**
-     * 获取色调
+     * 获取色调。
      * @return {@link Colors}
      */
     public static Colors colors(File imageFile, Options... options) {
@@ -44,7 +30,7 @@ public class Rgbaster {
     }
 
     /**
-     * 获取色调
+     * 获取色调。
      * @return {@link Colors}
      */
     public static Colors colors(InputStream imageInputStream, Options... options) {
@@ -56,7 +42,7 @@ public class Rgbaster {
     }
 
     /**
-     * 获取色调
+     * 获取色调。
      * @return {@link Colors}
      */
     public static Colors colors(byte[] imageByte, Options... options) {
@@ -64,7 +50,7 @@ public class Rgbaster {
     }
 
     /**
-     * 获取色调
+     * 获取色调。
      * @param image
      * @param optionsArgs 选项
      * @return {@link Colors}
@@ -75,15 +61,20 @@ public class Rgbaster {
 
         int width = image.getWidth();
         int height = image.getHeight();
-        TreeMap<Integer, Integer> colorCountsMap = new TreeMap<Integer, Integer>();
-        int color;
-        Integer count;
-        for (int x = 0; x < width; x++) {  
-            for (int y = 0; y < height; y++) {
-                color = image.getRGB(x, y);
-                if (options.excludeClosure == null || !options.excludeClosure.exclude(color)) {
-                    count = colorCountsMap.get(color);
-                    colorCountsMap.put(color, count != null ? count + 1 : 1);
+        TreeMap<Integer, ColorCount> colorCountsMap = new TreeMap<Integer, ColorCount>();
+        int rgba, key;
+        ColorCount counter;
+        for (int x = 0, y; x < width; x++) {  
+            for (y = 0; y < height; y++) {
+                rgba = image.getRGB(x, y);
+                key = options.ignoreAlpha ? (rgba & 0xFFFFFF) : rgba;
+                if (options.excludeClosure == null || !options.excludeClosure.exclude(rgba)) {
+                    counter = colorCountsMap.get(key);
+                    if (counter == null) {
+                        colorCountsMap.put(key, new ColorCount(rgba, 1));
+                    } else {
+                        counter.count++;
+                    }
                 }
             }
         }
@@ -91,18 +82,15 @@ public class Rgbaster {
         Color[] exclude = options.exclude;
         if (exclude != null && exclude.length > 0) {
             for (int i = 0; i < exclude.length; i++) {
-                color = exclude[i].getRGB();
-                if (colorCountsMap.get(color) != null)
-                    colorCountsMap.remove(color);
+                rgba = exclude[i].getRGB();
+                key = options.ignoreAlpha ? (rgba & 0xFFFFFF) : rgba;
+                colorCountsMap.remove(key);
             }
         }
         
         int colorCount = colorCountsMap.size();
         ColorCount[] colorCounts = new ColorCount[colorCount];
-        int index = 0;
-        for (Entry<Integer, Integer> entry : colorCountsMap.entrySet()) {
-            colorCounts[index++] = new ColorCount(entry.getKey(), entry.getValue());
-        }
+        colorCountsMap.values().toArray(colorCounts);
         Arrays.sort(colorCounts);
 
         Colors result = new Colors(null, null, 0, null);
@@ -112,13 +100,13 @@ public class Rgbaster {
             result.palette = new ArrayList<Color>(
                 options.isPaletteAutoSize() ? colorCounts.length : options.paletteSize);
             if (options.isPaletteAutoSize()) {
-                for (index = 0; index < colorCounts.length; index++) {
-                    result.palette.add( new Color(colorCounts[index].color) );
+                for (int index = 0; index < colorCounts.length; index++) {
+                    result.palette.add( new Color(colorCounts[index].color, true) );
                 }
             } else {
                 int cnt = Math.min(options.paletteSize, colorCounts.length);
-                for (index = 0; index < cnt; index++) {
-                    result.palette.add( new Color(colorCounts[index].color) );
+                for (int index = 0; index < cnt; index++) {
+                    result.palette.add( new Color(colorCounts[index].color, true) );
                 }
                 for (cnt = options.paletteSize - colorCounts.length; cnt > 0; cnt--) {
                     result.palette.add(options.paletteFillColor);
@@ -127,10 +115,23 @@ public class Rgbaster {
         }
         
         if (colorCount > 0) {
-            result.dominant = new Color(colorCounts[0].color);
-            result.secondary = colorCounts.length > 1 ? new Color(colorCounts[1].color) : result.dominant;
+            result.dominant = new Color(colorCounts[0].color, true);
+            result.secondary = colorCounts.length > 1 ? new Color(colorCounts[1].color, true) : result.dominant;
         }
 
         return result;
+    }
+
+    private static class ColorCount implements Comparable<ColorCount> {
+        int color;
+        int count;
+        public ColorCount(int color, int count) {
+            this.color = color;
+            this.count = count;
+        }
+        
+        public int compareTo(ColorCount cc) {
+            return cc.count - this.count;
+        }
     }
 }
