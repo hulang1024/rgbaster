@@ -97,7 +97,7 @@ public class RgbasterBasicTest {
         colors = Rgbaster.colors(
             new File(imageDir, "hasalpha.png"),
             new Options().exclude(new Color[]{ Color.white }));
-        assertTrue(!new Color(12, 160, 251).equals(colors.getDominant()));
+        assertTrue(new Color(12, 160, 251).equals(colors.getDominant()));
         assertTrue(new Color(12, 160, 251).equals(new Color(colors.getDominant().getRGB(), false)));
         assertTrue(new Color(128, 128, 128).equals(new Color(colors.getSecondary().getRGB(), false)));
         assertEquals(2, colors.getColorCount());

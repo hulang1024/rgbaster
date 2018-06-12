@@ -58,6 +58,7 @@ public class Rgbaster {
      */
     public static Colors colors(BufferedImage image, Options... optionsArgs) {
         Options options = optionsArgs.length == 0 ? new Options() : optionsArgs[0];
+        boolean ignoreAlpha = options.ignoreAlpha;
 
         int width = image.getWidth();
         int height = image.getHeight();
@@ -67,7 +68,7 @@ public class Rgbaster {
         for (int x = 0, y; x < width; x++) {  
             for (y = 0; y < height; y++) {
                 rgba = image.getRGB(x, y);
-                key = options.ignoreAlpha ? (rgba & 0xFFFFFF) : rgba;
+                key = ignoreAlpha ? (rgba | 0xFF000000) : rgba;
                 if (options.excludeClosure == null || !options.excludeClosure.exclude(rgba)) {
                     counter = colorCountsMap.get(key);
                     if (counter == null) {
@@ -83,7 +84,7 @@ public class Rgbaster {
         if (exclude != null && exclude.length > 0) {
             for (int i = 0; i < exclude.length; i++) {
                 rgba = exclude[i].getRGB();
-                key = options.ignoreAlpha ? (rgba & 0xFFFFFF) : rgba;
+                key = ignoreAlpha ? (rgba | 0xFF000000) : rgba;
                 colorCountsMap.remove(key);
             }
         }
@@ -101,12 +102,12 @@ public class Rgbaster {
                 options.isPaletteAutoSize() ? colorCounts.length : options.paletteSize);
             if (options.isPaletteAutoSize()) {
                 for (int index = 0; index < colorCounts.length; index++) {
-                    result.palette.add( new Color(colorCounts[index].color, true) );
+                    result.palette.add( new Color(colorCounts[index].color, !ignoreAlpha) );
                 }
             } else {
                 int cnt = Math.min(options.paletteSize, colorCounts.length);
                 for (int index = 0; index < cnt; index++) {
-                    result.palette.add( new Color(colorCounts[index].color, true) );
+                    result.palette.add( new Color(colorCounts[index].color, !ignoreAlpha) );
                 }
                 for (cnt = options.paletteSize - colorCounts.length; cnt > 0; cnt--) {
                     result.palette.add(options.paletteFillColor);
@@ -115,8 +116,8 @@ public class Rgbaster {
         }
         
         if (colorCount > 0) {
-            result.dominant = new Color(colorCounts[0].color, true);
-            result.secondary = colorCounts.length > 1 ? new Color(colorCounts[1].color, true) : result.dominant;
+            result.dominant = new Color(colorCounts[0].color, !ignoreAlpha);
+            result.secondary = colorCounts.length > 1 ? new Color(colorCounts[1].color, !ignoreAlpha) : result.dominant;
         }
 
         return result;
