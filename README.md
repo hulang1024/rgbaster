@@ -29,6 +29,12 @@ for (Color c : colors.getPalette()) {
 Colors colors = Rgbaster.colors(
     imageFile,
     new Options()
+        .palette(5000, Color.black)
+        .exclude(new Color[] { Color.black, Color.white }));
+        
+Colors colors = Rgbaster.colors(
+    imageFile,
+    new Options()
         .enbalePalette()
         .ignoreAlpha(false)
         .exclude(new Options.ExcludeClosure() {
@@ -36,11 +42,6 @@ Colors colors = Rgbaster.colors(
                 return new Color(color).getBlue() == 255;
             }
         }));
-Colors colors = Rgbaster.colors(
-    imageFile,
-    new Options()
-        .palette(5000, Color.black)
-        .exclude(new Color[] { Color.black, Color.white }));
 ```
 
 
@@ -48,7 +49,7 @@ Colors colors = Rgbaster.colors(
 
 
 ### 相关
-本项目源于做一个自适应背景图片色调的登录按钮的Web系统登录界面，一开始使用了JavaScript版本，但它有一个延迟。  
+本项目模块源于做一个自适应背景图片色调的登录按钮的Web系统登录界面，一开始使用了JavaScript版本，但它有一个延迟。  
 本Java版本增加了一些特性，并可以在B/S的服务端使用，也可以用于桌面端。
 
 

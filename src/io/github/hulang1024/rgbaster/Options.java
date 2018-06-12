@@ -69,7 +69,6 @@ public class Options {
      */
     public Options enbalePalette() {
         this.paletteEnabled = true;
-        this.paletteSize = -1;  // 默认动态大小
         return this;
     }
 
