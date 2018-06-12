@@ -28,7 +28,7 @@ public class RgbasterBasicTest {
     @Test
     public void testPureColor() {
         Color grape = new Color(128, 0, 255);
-        
+
         colors = Rgbaster.colors( new File(imageDir, "grape.png") );
         assertEquals(grape, colors.getDominant());
         assertEquals(grape, colors.getSecondary());
@@ -193,5 +193,13 @@ public class RgbasterBasicTest {
         assertEquals("#ff02aa64", WebColorValueUtils.hexString(colorWith255Alpha));
         assertEquals("#ff02aa64", WebColorValueUtils.hexString(colorWith255Alpha, true));
         assertEquals("#ff02aa", WebColorValueUtils.hexString(colorWith255Alpha, false));
+        
+        assertEquals("ff02aa", WebColorValueUtils.hex(color, false));
+        
+        assertEquals("", WebColorValueUtils.rgbString(null));
+        assertEquals("", WebColorValueUtils.rgbaString(null));
+        assertEquals("", WebColorValueUtils.hexString(null));
+        assertEquals("", WebColorValueUtils.hexString(null, false));
+        assertEquals("", WebColorValueUtils.hex(null, false));
     }
 }

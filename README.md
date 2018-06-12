@@ -8,17 +8,19 @@ JavaScript版本：[rgbaster.js](https://github.com/briangonzalez/rgbaster.js)
 ```java
 import java.awt.Color;
 import java.io.File;
+import static java.lang.System.*;
 import io.github.hulang1024.rgbaster.Colors;
 import io.github.hulang1024.rgbaster.Options;
 import io.github.hulang1024.rgbaster.Rgbaster;
+import io.github.hulang1024.rgbaster.WebColorValueUtils;
 
 Colors colors = Rgbaster.colors( new File(imageDir, "image3.png") );
-System.out.println("  Dominant Color: " + colors.getDominant());
-System.out.println("  Secondary Color: " + colors.getSecondary());
-System.out.println("  Color Count: " + colors.getColorCount());
-System.out.println("  Palette: ");
+out.println("  Dominant Color: " + WebColorValueUtils.rgbString(colors.getDominant()));
+out.println("  Secondary Color: " + WebColorValueUtils.rgbaString(colors.getSecondary()));
+out.println("  Color Count: " + colors.getColorCount());
+out.println("  Palette: ");
 for (Color c : colors.getPalette()) {
-    System.out.println("\t" + c);
+    out.println("\t" + WebColorValueUtils.hexString(c));
 }
 ```
 
