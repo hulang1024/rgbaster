@@ -16,6 +16,7 @@ import org.junit.Test;
 import io.github.hulang1024.rgbaster.Colors;
 import io.github.hulang1024.rgbaster.Options;
 import io.github.hulang1024.rgbaster.Rgbaster;
+import io.github.hulang1024.rgbaster.WebColorValueUtils;
 
 /**
  * @author hulang
@@ -146,15 +147,15 @@ public class RgbasterBasicTest {
             writer.write("<img src=" + imageFile.getPath() + "><br>");
             
             writer.write("<span>Dominant Color: </span>");
-            writer.write("<div class='cell' style='background-color:" + rgb(colors.getDominant()) + "'></div>");
+            writer.write("<div class='cell' style='background-color:" + WebColorValueUtils.rgbString(colors.getDominant()) + "'></div>");
             
             writer.write("<span>Secondary Color: </span>");
-            writer.write("<div class='cell' style='background-color:" + rgb(colors.getSecondary()) + "'></div>");
+            writer.write("<div class='cell' style='background-color:" + WebColorValueUtils.rgbString(colors.getSecondary()) + "'></div>");
             
             writer.write("<span>Blues Palette: </span>");
             writer.write("<div class='palette'>");
             for (Color c : colors.getPalette()) {
-                writer.write("<div class='cell' style='background-color:" + rgb(c) + "'></div>");
+                writer.write("<div class='cell' style='background-color:" + WebColorValueUtils.rgbString(c) + "'></div>");
             }
             writer.write("</div>");
             writer.close();
@@ -178,7 +179,19 @@ public class RgbasterBasicTest {
         assertEquals(7, Rgbaster.colors(imageByte).getColorCount());
     }
     
-    public static String rgb(Color color) {
-        return "rgb(" + color.getRed() + "," + color.getGreen() + "," + color.getBlue() + ")";
+    @Test
+    public void testValueUtils() {
+        Color color = new Color(255, 2, 170);
+        assertEquals("rgb(255,2,170)", WebColorValueUtils.rgbString(color));
+        assertEquals("rgba(255,2,170,255)", WebColorValueUtils.rgbaString(color));
+        assertEquals("#ff02aa", WebColorValueUtils.hexString(color));
+        Color colorWithAlpha = new Color(color.getRed(), color.getGreen(), color.getBlue(), 100);
+        assertEquals("#ff02aa64", WebColorValueUtils.hexString(colorWithAlpha));
+        assertEquals("#ff02aa64", WebColorValueUtils.hexString(colorWithAlpha, true));
+        assertEquals("#ff02aa", WebColorValueUtils.hexString(colorWithAlpha, false));
+        Color colorWith255Alpha = new Color(color.getRed(), color.getGreen(), color.getBlue(), 100);
+        assertEquals("#ff02aa64", WebColorValueUtils.hexString(colorWith255Alpha));
+        assertEquals("#ff02aa64", WebColorValueUtils.hexString(colorWith255Alpha, true));
+        assertEquals("#ff02aa", WebColorValueUtils.hexString(colorWith255Alpha, false));
     }
 }
