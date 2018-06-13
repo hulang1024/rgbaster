@@ -1,13 +1,11 @@
-<p align="center"><a href="https://vuejs.org" target="_blank" rel="noopener noreferrer"><img width="220" src="doc/images/title.png" alt="Vue logo"></a></p>
-===============
+<a href="#rgbaster"><img width="216" src="doc/images/title.png" alt="Vue logo"></a>
 
 
 一个简单的Java库，从图像中提取色调。  
-JavaScript版本：[rgbaster.js](https://github.com/briangonzalez/rgbaster.js)  
 
 
-### 用法
-##### 示例
+## 用法
+#### 示例
 ```java
 import java.awt.Color;
 import java.io.File;
@@ -50,14 +48,13 @@ Colors colors = Rgbaster.colors(
 ```
 
 
-### [API文档](https://hulang1024.github.io/rgbaster/doc/index.html)
+## [API文档](https://hulang1024.github.io/rgbaster/doc/index.html)
 
 
-### 相关
-本项目模块源于做一个自适应背景图片色调的登录按钮的Web系统登录界面，一开始使用了JavaScript版本，但它有一个延迟。  
-本Java版本增加了一些特性。  
+## 相关
+JavaScript版本：[rgbaster.js](https://github.com/briangonzalez/rgbaster.js)，JavaScript版本有一些延迟，因此有了本Java版本，并增加了一些特性。  
 
-**运用例子截图：**  
+##### 运用例子截图  
 ![kanxi](doc/images/kanxi.gif)
 ![kanxi_palette](doc/images/kanxi_palette.png)
 
@@ -66,6 +63,5 @@ Colors colors = Rgbaster.colors(
 ![login_color_adaptive](doc/images/login_color_adaptive.png)
 
 
-License
--------
+## License
 MIT
