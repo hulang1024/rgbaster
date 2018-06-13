@@ -1,10 +1,10 @@
-<a href="#rgbaster"><img width="216" src="doc/images/title.png" alt="Vue logo"></a>
+<a href="#rgbaster"><img width="190" src="doc/images/title.png" alt="RGBaster"></a>
 
 
 一个简单的Java库，从图像中提取色调。  
 
 
-## 用法
+## Usage
 #### 示例
 ```java
 import java.awt.Color;
@@ -25,7 +25,7 @@ for (Color c : colors.getPalette()) {
 }
 ```
 
-#### 配置选项
+#### Options
 
 ##### 示例
 ```java
@@ -51,7 +51,7 @@ Colors colors = Rgbaster.colors(
 ## [API文档](https://hulang1024.github.io/rgbaster/doc/index.html)
 
 
-## 相关
+## About
 JavaScript版本：[rgbaster.js](https://github.com/briangonzalez/rgbaster.js)，JavaScript版本有一些延迟，因此有了本Java版本，并增加了一些特性。  
 
 ##### 运用例子截图  
@@ -62,6 +62,10 @@ JavaScript版本：[rgbaster.js](https://github.com/briangonzalez/rgbaster.js)�
 
 ![login_color_adaptive](doc/images/login_color_adaptive.png)
 
+
+## Thanks
+[Febby315](https://github.com/Febby315)  
+   GitHub markdown不支持文字颜色样式，只好将标题做成图片 :D。
 
 ## License
 MIT
