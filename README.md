@@ -1,4 +1,4 @@
-# RGBaster
+# <div style="text-align:center;font-size:1.2em"><span style="color:rgba(255,0,0,0.6)">R</sapn><span style="color:rgba(0,255,0,0.6)">G</sapn><span style="color:rgba(0,0,255,0.6)">B</sapn><span style="color:initial">aster</span></div>
 一个非常简单的Java库，从图像中提取色调。  
 JavaScript版本：[rgbaster.js](https://github.com/briangonzalez/rgbaster.js)  
 
@@ -55,12 +55,13 @@ Colors colors = Rgbaster.colors(
 本Java版本增加了一些特性。  
 
 **运用例子截图：**  
-<img src="doc/images/cat.gif" width="200" height="140">
-![cat_palette](doc/images/cat_palette.png)
-
+<div align=center>
 ![kanxi](doc/images/kanxi.gif)
 ![kanxi_palette](doc/images/kanxi_palette.png)
 
+<img src="doc/images/cat.gif" width="200" height="140">
+![cat_palette](doc/images/cat_palette.png)
+</div>
 
 License
 -------
