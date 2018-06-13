@@ -1,5 +1,8 @@
-# <div style="text-align:center;font-size:1.2em"><span style="color:rgba(255,0,0,0.6)">R</sapn><span style="color:rgba(0,255,0,0.6)">G</sapn><span style="color:rgba(0,0,255,0.6)">B</sapn><span style="color:initial">aster</span></div>
-一个非常简单的Java库，从图像中提取色调。  
+<p align="center"><a href="https://vuejs.org" target="_blank" rel="noopener noreferrer"><img width="220" src="doc/images/title.png" alt="Vue logo"></a></p>
+===============
+
+
+一个简单的Java库，从图像中提取色调。  
 JavaScript版本：[rgbaster.js](https://github.com/briangonzalez/rgbaster.js)  
 
 
@@ -14,7 +17,7 @@ import io.github.hulang1024.rgbaster.Options;
 import io.github.hulang1024.rgbaster.Rgbaster;
 import io.github.hulang1024.rgbaster.WebColorValueUtils;
 
-Colors colors = Rgbaster.colors( new File(imageDir, "image3.png") );
+Colors colors = Rgbaster.colors( new File(imageDir, "foo.png") );
 out.println("  Dominant Color: " + WebColorValueUtils.rgbString(colors.getDominant()));
 out.println("  Secondary Color: " + WebColorValueUtils.rgbaString(colors.getSecondary()));
 out.println("  Color Count: " + colors.getColorCount());
@@ -55,13 +58,13 @@ Colors colors = Rgbaster.colors(
 本Java版本增加了一些特性。  
 
 **运用例子截图：**  
-<div align=center>
 ![kanxi](doc/images/kanxi.gif)
 ![kanxi_palette](doc/images/kanxi_palette.png)
 
-<img src="doc/images/cat.gif" width="200" height="140">
 ![cat_palette](doc/images/cat_palette.png)
-</div>
+
+![login_color_adaptive](doc/images/login_color_adaptive.png)
+
 
 License
 -------
