@@ -54,14 +54,6 @@ Colors colors = Rgbaster.colors(
 ## About
 JavaScript版本：[rgbaster.js](https://github.com/briangonzalez/rgbaster.js)，JavaScript版本有一些延迟，因此有了本Java版本，并增加了一些特性。  
 
-#### 运用例子截图  
-![kanxi](doc/images/kanxi.gif)
-![kanxi_palette](doc/images/kanxi_palette.png)
-
-![cat_palette](doc/images/cat_palette.png)
-
-![login_color_adaptive](doc/images/login_color_adaptive.png)
-
 
 ## Thanks
 - [Febby315](https://github.com/Febby315)  
